@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To My Love</title>
+    <style>
+      :root {
+        --ink: #32152a;
+        --berry: #c9155b;
+        --berry-dark: #a90e4b;
+        --paper: #fffdfd;
+        --blush: #fff0f5;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        display: grid;
+        place-items: center;
+        padding: 24px 14px;
+        color: var(--ink);
+        background:
+          radial-gradient(
+            circle at 12% 14%,
+            rgba(255, 170, 198, 0.32) 0 4px,
+            transparent 5px
+          ),
+          radial-gradient(
+            circle at 86% 82%,
+            rgba(255, 170, 198, 0.28) 0 5px,
+            transparent 6px
+          ),
+          linear-gradient(135deg, #fff8fb 0%, #ffe8f0 48%, #fff9fb 100%);
+        font-family: Georgia, "Times New Roman", serif;
+      }
+
+      .letter {
+        width: min(100%, 540px);
+        min-height: 720px;
+        padding: 32px 46px 38px;
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+        background: var(--paper);
+        border: 1px solid rgba(111, 55, 75, 0.18);
+        border-radius: 8px;
+        box-shadow: 0 18px 45px rgba(111, 34, 70, 0.13);
+        animation: appear 700ms ease-out both;
+      }
+
+      .letter::before,
+      .letter::after {
+        content: "❤";
+        position: absolute;
+        color: rgba(201, 21, 91, 0.1);
+        font-size: 54px;
+        pointer-events: none;
+      }
+
+      .letter::before {
+        top: 14px;
+        left: 14px;
+        transform: rotate(-18deg);
+      }
+
+      .letter::after {
+        right: 14px;
+        bottom: 10px;
+        transform: rotate(18deg);
+      }
+
+      h1 {
+        margin: 0 0 20px;
+        color: var(--berry);
+        font-size: clamp(2.45rem, 8vw, 3.55rem);
+        line-height: 1;
+        letter-spacing: 0;
+      }
+
+      p {
+        margin: 0 auto 42px;
+        max-width: 430px;
+        font-size: clamp(1.22rem, 3.4vw, 1.5rem);
+        line-height: 1.95;
+      }
+
+      .intro {
+        margin-bottom: 45px;
+      }
+
+      .closing {
+        margin-bottom: 45px;
+      }
+
+      .heart {
+        color: #f02768;
+        font-family: "Segoe UI Emoji", "Apple Color Emoji", sans-serif;
+        white-space: nowrap;
+      }
+
+      .action-area {
+        position: relative;
+        z-index: 1;
+      }
+
+      .heart-burst {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+
+      .burst-heart {
+        position: absolute;
+        left: 50%;
+        top: 22px;
+        color: #f02768;
+        font-family: "Segoe UI Emoji", "Apple Color Emoji", sans-serif;
+        font-size: var(--size);
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.4);
+        animation: float-heart 900ms ease-out var(--delay) both;
+      }
+
+      button {
+        min-width: 130px;
+        min-height: 50px;
+        padding: 12px 24px;
+        border: 0;
+        border-radius: 10px;
+        color: white;
+        background: var(--berry);
+        font:
+          700 1rem Georgia,
+          "Times New Roman",
+          serif;
+        cursor: pointer;
+        box-shadow: 0 7px 15px rgba(201, 21, 91, 0.2);
+        transition:
+          background 180ms ease,
+          transform 180ms ease,
+          box-shadow 180ms ease;
+      }
+
+      button:hover,
+      button:focus-visible {
+        background: var(--berry-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(201, 21, 91, 0.28);
+      }
+
+      button:focus-visible {
+        outline: 3px solid rgba(201, 21, 91, 0.3);
+        outline-offset: 3px;
+      }
+
+      .hint {
+        margin: 12px 0 0;
+        color: #98405f;
+        font-size: 1rem;
+        line-height: 1.4;
+      }
+
+      .secret-message {
+        max-height: 0;
+        margin: 0;
+        overflow: hidden;
+        color: var(--berry);
+        font-size: clamp(1.8rem, 6vw, 2.6rem);
+        font-weight: 700;
+        line-height: 1.2;
+        opacity: 0;
+        transform: translateY(12px) scale(0.96);
+        transition:
+          max-height 500ms ease,
+          margin 500ms ease,
+          opacity 500ms ease,
+          transform 500ms ease;
+      }
+
+      .secret-message.visible {
+        max-height: 100px;
+        margin: 28px 0 0;
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+
+      @keyframes appear {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes float-heart {
+        0% {
+          opacity: 0;
+          transform: translate(-50%, -50%) scale(0.4) rotate(0deg);
+        }
+        18% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y)))
+            scale(1) rotate(var(--rotation));
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 1ms !important;
+          animation-iteration-count: 1 !important;
+          scroll-behavior: auto !important;
+          transition-duration: 1ms !important;
+        }
+      }
+
+      @media (max-width: 500px) {
+        body {
+          padding: 12px 8px;
+        }
+
+        .letter {
+          min-height: 690px;
+          padding: 28px 24px 32px;
+        }
+
+        p {
+          line-height: 1.85;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="letter" aria-labelledby="page-title">
+      <h1 id="page-title">To My Love</h1>
+
+      <p class="intro">
+        April 13, the day I accepted your Instagram request. I never thought
+        that after three days, we would fall in love.
+        <span class="heart">💗</span>
+      </p>
+
+      <p>
+        In these six months, we fought, laughed, and learned so much about each
+        other. Many times I tried to leave, but you never gave up on me. You
+        always loved me, trusted me, and took care of me so much.
+      </p>
+
+      <p class="closing">
+        You are my everything. <span class="heart">💗</span>
+      </p>
+
+      <p>
+        Happy 6 months to us, my love. I’m so lucky to have you.
+        <span class="heart">🫶 💗</span>
+      </p>
+
+      <section class="action-area" aria-live="polite">
+        <span class="heart-burst" aria-hidden="true"></span>
+        <button
+          id="love-button"
+          type="button"
+          aria-expanded="false"
+          aria-controls="secret-message"
+        >
+          Click here
+        </button>
+        <p class="hint">Click to open the special message.</p>
+        <p id="secret-message" class="secret-message">
+          I love you, Kumar! <span class="heart">💗</span>
+        </p>
+      </section>
+    </main>
+
+    <script>
+      const button = document.querySelector("#love-button");
+      const message = document.querySelector("#secret-message");
+      const heartBurst = document.querySelector(".heart-burst");
+
+      function celebrate() {
+        heartBurst.replaceChildren();
+        const celebrationEmojis = ["💗", "✨", "🦋", "💞", "🌟"];
+
+        for (let index = 0; index < 14; index += 1) {
+          const heart = document.createElement("span");
+          const direction = index % 2 === 0 ? -1 : 1;
+          heart.className = "burst-heart";
+          heart.textContent =
+            celebrationEmojis[index % celebrationEmojis.length];
+          heart.style.setProperty("--x", `${direction * (35 + index * 7)}px`);
+          heart.style.setProperty("--y", `${-45 - (index % 5) * 17}px`);
+          heart.style.setProperty("--size", `${14 + (index % 3) * 4}px`);
+          heart.style.setProperty("--delay", `${index * 28}ms`);
+          heart.style.setProperty(
+            "--rotation",
+            `${direction * (12 + index * 8)}deg`,
+          );
+          heartBurst.append(heart);
+        }
+      }
+
+      button.addEventListener("click", () => {
+        const isVisible = message.classList.toggle("visible");
+        button.setAttribute("aria-expanded", String(isVisible));
+        button.textContent = isVisible ? "Hide message" : "Click here";
+
+        if (isVisible) {
+          celebrate();
+        } else {
+          heartBurst.replaceChildren();
+        }
+      });
+    </script>
+  </body>
+</html>
